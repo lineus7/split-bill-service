@@ -50,7 +50,7 @@ func (s *AuthService) Register(email string, password string, name string) (*mod
 	if _, err := s.userRepository.GetByEmail(email); err == nil {
 		appErr := utils.AppError{
 			Code:    http.StatusConflict,
-			Message: "Record Not Found",
+			Message: "Email already exists",
 			Err:     err,
 		}
 		return nil, &appErr
