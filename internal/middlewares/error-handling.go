@@ -16,9 +16,9 @@ func ErrorHandlingMiddleware() gin.HandlerFunc {
 			err := c.Errors.Last().Err
 			var appErr *utils.AppError
 			if errors.As(err, &appErr) {
-				c.JSON(appErr.Code, gin.H{"error": appErr.Message})
+				utils.SendResponse(c, appErr.Code, nil, appErr.Message)
 			} else {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+				utils.SendResponse(c, http.StatusInternalServerError, nil, "Internal Server Error")
 			}
 		}
 	}

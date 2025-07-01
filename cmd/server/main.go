@@ -5,6 +5,7 @@ import (
 	"log"
 	"split-bill-service/config"
 	"split-bill-service/database"
+	"split-bill-service/internal/middlewares"
 	"split-bill-service/internal/routers"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +18,11 @@ func main() {
 	cfg := config.LoadConfig()
 	database.ConnectDB(cfg)
 	db = database.DB
-
+	
 	gin.SetMode(cfg.GinMode)
 	r := gin.Default()
 
+	r.Use(middlewares.ErrorHandlingMiddleware())
 	routers.SetupAuthRoutes(r, db)
 
 	log.Printf("Server starting on port %s", cfg.HTTPPort)

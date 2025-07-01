@@ -22,21 +22,17 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		Password string `json:"password" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
-		utils.Error(c, http.StatusBadRequest, err)
+		c.Error(err)
 		return
 	}
 
 	user, err := h.authService.Login(req.Email, req.Password)
 	if err != nil {
-		if err.Error() == "invalid credentials" {
-			utils.Error(c, http.StatusUnauthorized, err)
-			return
-		}
-		utils.Error(c, http.StatusInternalServerError, err)
+		c.Error(err)
 		return
 	}
 
-	utils.Success(c, user, "Login successful")
+	utils.SendResponse(c, http.StatusOK, user, "Login successful")
 }
 
 func (h *AuthHandler) Register(c *gin.Context) {
@@ -46,19 +42,15 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		Name     string `json:"name" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
-		utils.Error(c, http.StatusBadRequest, err)
+		c.Error(err)
 		return
 	}
 
 	user, err := h.authService.Register(req.Email, req.Password, req.Name)
 	if err != nil {
-		if err.Error() == "record already exists" {
-			utils.Error(c, http.StatusConflict, err)
-			return
-		}
-		utils.Error(c, http.StatusInternalServerError, err)
+		c.Error(err)
 		return
 	}
 
-	utils.Success(c, user, "Register successful")
+	utils.SendResponse(c, http.StatusOK, user, "Register successful")
 }

@@ -15,33 +15,33 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (s *UserRepository) GetByEmail(email string) (models.User, error) {
+func (s *UserRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
 	if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
-		return models.User{}, err
+		return nil, err
 	}
-	return user, nil	
+	return &user, nil	
 }
 
-func (s *UserRepository) Create(user models.User) (models.User, error) {
+func (s *UserRepository) Create(user models.User) (*models.User, error) {
 	user.Password, _ = utils.HashPassword(user.Password)
 	if err := s.db.Create(&user).Error; err != nil {
-		return models.User{}, err
+		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
-func (s *UserRepository) Update(user models.User) (models.User, error) {
+func (s *UserRepository) Update(user models.User) (*models.User, error) {
 	if err := s.db.Save(&user).Error; err != nil {
-		return models.User{}, err
+		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
-func (s *UserRepository) Delete(user models.User) (models.User, error) {
+func (s *UserRepository) Delete(user models.User) (*models.User, error) {
 	if err := s.db.Delete(&user).Error; err != nil {
-		return models.User{}, err
+		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
