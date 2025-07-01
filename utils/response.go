@@ -17,3 +17,10 @@ func SendResponse(c *gin.Context, code int, data any, message string) {
 		Message: message,
 	})
 }
+
+func SendErrorResponse(c *gin.Context, code int, message string) {
+	c.AbortWithStatusJSON(code, Response{
+		Code:    code,
+		Message: message,
+	})
+}
