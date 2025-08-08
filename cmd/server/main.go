@@ -6,6 +6,7 @@ import (
 	"split-bill-service/config"
 	"split-bill-service/database"
 	"split-bill-service/internal/middlewares"
+	"split-bill-service/internal/repositories"
 	"split-bill-service/internal/routers"
 
 	"github.com/gin-gonic/gin"
@@ -16,14 +17,15 @@ var db *gorm.DB
 
 func main() {
 	cfg := config.LoadConfig()
-	database.ConnectDB(cfg)
-	db = database.DB
+	db = database.ConnectDB(cfg)
+	connection := config.NewConnection(db)
+	repos := repositories.NewRepositoriesSet(connection)
 	
 	gin.SetMode(cfg.GinMode)
 	r := gin.Default()
 
 	r.Use(middlewares.ErrorHandlingMiddleware())
-	routers.SetupAuthRoutes(r, db)
+	routers.SetupAuthRoutes(r, connection, repos)
 
 	log.Printf("Server starting on port %s", cfg.HTTPPort)
 	if err := r.Run(fmt.Sprintf(":%s", cfg.HTTPPort)); err != nil {

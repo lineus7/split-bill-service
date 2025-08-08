@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"split-bill-service/config"
 	"split-bill-service/internal/models"
 	"split-bill-service/utils"
 
@@ -11,8 +12,8 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) *UserRepository {
-	return &UserRepository{db: db}
+func NewUserRepository(connection *config.Connection) *UserRepository {
+	return &UserRepository{db: connection.DB}
 }
 
 func (s *UserRepository) GetByEmail(email string) (*models.User, error) {

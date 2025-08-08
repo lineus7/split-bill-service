@@ -8,34 +8,23 @@ import (
 
 	"gorm.io/gorm"
 )
-
+func NewAuthService(repos *repositories.RepositoriesSet) *AuthService {
+	return &AuthService{userRepository: repos.UserRepository}
+}
 type AuthService struct {
 	userRepository *repositories.UserRepository
-}
-
-func NewAuthService(userRepository *repositories.UserRepository) *AuthService {
-	return &AuthService{userRepository: userRepository}
 }
 
 func (s *AuthService) Login(email string, password string) (*models.User, error) {
 	user, err := s.userRepository.GetByEmail(email)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			appErr := utils.AppError{
-				Code:    http.StatusNotFound,
-				Message: "Record Not Found",
-				Err:     err,
-			}
-			return nil, &appErr
+			return nil, utils.NewAppError(http.StatusNotFound, "User not found", err)
 		}
 		return nil, err
 	}
 	if !utils.CheckPasswordHash(password, user.Password) {
-		appErr := utils.AppError{
-			Code:    http.StatusUnauthorized,
-			Message: "Invalid Credentials",
-		}
-		return nil, &appErr
+		return nil, utils.NewAppError(http.StatusUnauthorized, "Invalid Credentials", nil)
 	}
 	user.Password = ""
 	return user, nil
@@ -48,12 +37,7 @@ func (s *AuthService) Register(email string, password string, name string) (*mod
 		Name:     name,
 	}
 	if _, err := s.userRepository.GetByEmail(email); err == nil {
-		appErr := utils.AppError{
-			Code:    http.StatusConflict,
-			Message: "Email already exists",
-			Err:     err,
-		}
-		return nil, &appErr
+		return nil, utils.NewAppError(http.StatusConflict, "Email already exists", nil)
 	}
 	newUser, err := s.userRepository.Create(user)
 	newUser.Password = ""

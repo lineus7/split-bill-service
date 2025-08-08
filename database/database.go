@@ -10,9 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-var DB *gorm.DB
-
-func ConnectDB(cfg *config.Config) {
+func ConnectDB(cfg *config.Config) *gorm.DB {
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Jakarta",
 		cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort, cfg.DBSSLMode)
@@ -33,6 +31,6 @@ func ConnectDB(cfg *config.Config) {
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 
-	DB = db
 	log.Println("Database connection successfully established.")
+	return db
 }

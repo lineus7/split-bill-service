@@ -10,8 +10,7 @@ import (
 func main() {
     cfg := config.LoadConfig()
 
-    database.ConnectDB(cfg)
-    db := database.DB
+    db := database.ConnectDB(cfg)
 
     log.Println("Seeding started...")
 

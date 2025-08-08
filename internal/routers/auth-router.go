@@ -2,16 +2,15 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 
+	"split-bill-service/config"
 	"split-bill-service/internal/handlers"
 	"split-bill-service/internal/repositories"
 	"split-bill-service/internal/services"
 )
 
-func SetupAuthRoutes(router *gin.Engine, db *gorm.DB) {
-	userRepository := repositories.NewUserRepository(db)
-	authService := services.NewAuthService(userRepository)
+func SetupAuthRoutes(router *gin.Engine,connection *config.Connection, repos *repositories.RepositoriesSet) {
+	authService := services.NewAuthService(repos)
 	authHandler := handlers.NewAuthHandler(authService)
 
 	api := router.Group("/auth")
