@@ -13,3 +13,11 @@ func (e *AppError) Error() string {
 func (e *AppError) Unwrap() error {
     return e.Err
 }
+
+func NewAppError(code int, message string, err error) *AppError {
+    return &AppError{
+        Code:    code,
+        Message: message,
+        Err:     err,
+    }
+}
