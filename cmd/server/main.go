@@ -25,7 +25,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(middlewares.ErrorHandlingMiddleware())
-	routers.SetupAuthRoutes(r, connection, repos)
+	routers.SetupRouters(r, connection, repos)
 
 	log.Printf("Server starting on port %s", cfg.HTTPPort)
 	if err := r.Run(fmt.Sprintf(":%s", cfg.HTTPPort)); err != nil {
