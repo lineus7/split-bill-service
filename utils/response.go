@@ -5,9 +5,9 @@ import (
 )
 
 type Response struct {
-	Code    int    `json:"code"`
-	Data    any    `json:"data,omitempty"`
-	Message string `json:"message"`
+	Code    int    `json:"Code"`
+	Data    any    `json:"Data,omitempty"`
+	Message string `json:"Message"`
 }
 
 func SendResponse(c *gin.Context, code int, data any, message string) {
