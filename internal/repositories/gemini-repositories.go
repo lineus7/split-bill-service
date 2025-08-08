@@ -8,6 +8,8 @@ import (
 	"google.golang.org/genai"
 )
 
+var model = "gemini-2.5-flash"
+
 func NewGeminiRepository(connection *config.Connection) *GeminiRepository {
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, nil)
@@ -23,7 +25,7 @@ type GeminiRepository struct {
 	client *genai.Client
 }
 
-func (r *GeminiRepository) GenerateContent(model string, prompt string) (string, error) {
+func (r *GeminiRepository) GenerateContent(prompt string) (string, error) {
 	result, err := r.client.Models.GenerateContent(
 		context.Background(),
 		model,
@@ -35,3 +37,26 @@ func (r *GeminiRepository) GenerateContent(model string, prompt string) (string,
 	}
 	return result.Text(), nil
 }
+
+func (r *GeminiRepository) GenerateContentWithBytes(imageBytes []byte, prompt string) (string, error) {
+	parts := []*genai.Part{
+		genai.NewPartFromBytes(imageBytes, "image/jpeg"),
+		genai.NewPartFromText(prompt),
+	}
+	contents := []*genai.Content{
+		genai.NewContentFromParts(parts, genai.RoleUser),
+	}
+	
+	result, err := r.client.Models.GenerateContent(
+		context.Background(),
+		model,
+		contents,
+		nil,
+	)
+	if err != nil {
+		return "", err
+	}
+
+	return result.Text(), nil
+}
+	
