@@ -28,7 +28,7 @@ func ErrorHandlingMiddleware() gin.HandlerFunc {
 				return
 			}
 			
-			utils.SendErrorResponse(c, http.StatusInternalServerError, "Internal Server Error")
+			utils.SendErrorResponse(c, http.StatusInternalServerError, err.Error())
 		}
 	}
 }
