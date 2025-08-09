@@ -10,10 +10,14 @@ import (
 func SeedTransactionItems(db *gorm.DB) {
     log.Println("Seeding transaction items...")
 
+    userId1 := uint(1)
+    userId2 := uint(2)
+    customerName1 := "Customer 1"
+    
     transactionItems := []models.TransactionItem{
-        {UserId: nil, TransactionId: 1, AlternativeCustomerName: "Customer 1", ItemName: "Item 1", TotalPrice: 2000},
-        {UserId: nil, TransactionId: 2, AlternativeCustomerName: "Customer 2", ItemName: "Item 2", TotalPrice: 1000},
-        {UserId: nil, TransactionId: 2, AlternativeCustomerName: "Customer 3", ItemName: "Item 3", TotalPrice: 500},
+        {UserId: &userId1, TransactionId: 1, ItemName: "Item 1", Price: 2000},
+        {UserId: &userId2, TransactionId: 1, ItemName: "Item 2", Price: 1000},
+        {AlternativeCustomerName: &customerName1, TransactionId: 2, ItemName: "Item 3", Price: 500},
     }
 
     if err := db.Create(&transactionItems).Error; err != nil {

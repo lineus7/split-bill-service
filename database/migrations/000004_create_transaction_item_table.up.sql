@@ -5,8 +5,7 @@ CREATE TABLE transaction_items (
 	transaction_id INT NOT NULL REFERENCES transactions(id),
     alternative_customer_name VARCHAR(255),
     item_name VARCHAR(255) NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
-    add_on JSON NOT NULL DEFAULT '[]',
+    price DECIMAL(10, 2) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	deleted_at TIMESTAMP DEFAULT NULL
