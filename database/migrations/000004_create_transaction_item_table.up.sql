@@ -3,7 +3,7 @@ CREATE TABLE transaction_items (
 	id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
 	transaction_id INT NOT NULL REFERENCES transactions(id),
-    alternative_user_name VARCHAR(255),
+    alternative_customer_name VARCHAR(255),
     item_name VARCHAR(255) NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
     add_on JSON NOT NULL DEFAULT '[]',

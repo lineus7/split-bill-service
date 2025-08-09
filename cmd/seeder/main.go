@@ -17,6 +17,7 @@ func main() {
     seeders.SeedUsers(db)
     seeders.SeedTransactionStatus(db)
     seeders.SeedTransactions(db)
+    seeders.SeedTransactionItems(db)
 
     log.Println("Seeding complete!")
 }
