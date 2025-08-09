@@ -17,7 +17,7 @@ func SeedTransactionItems(db *gorm.DB) {
     transactionItems := []models.TransactionItem{
         {UserId: &userId1, TransactionId: 1, ItemName: "Item 1", Price: 2000},
         {UserId: &userId2, TransactionId: 1, ItemName: "Item 2", Price: 1000},
-        {AlternativeCustomerName: &customerName1, TransactionId: 2, ItemName: "Item 3", Price: 500},
+        {AlternativeCustomerName: &customerName1, TransactionId: 1, ItemName: "Item 3", Price: 500},
     }
 
     if err := db.Create(&transactionItems).Error; err != nil {
