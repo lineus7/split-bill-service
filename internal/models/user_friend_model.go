@@ -1,9 +1,7 @@
 package models
 
-import "gorm.io/gorm"
-
 type UserFriend struct {
-	gorm.Model
+	ID uint `gorm:"primarykey"`
 	UserId uint `gorm:"not null"`
 	FriendId uint `gorm:"not null"`
 	User User `gorm:"foreignKey:UserId"`
