@@ -9,6 +9,5 @@ type TransactionItem struct {
 	TransactionId uint `gorm:"not null"`
 	ItemName string `gorm:"not null"`
 	Price float64 `gorm:"not null default:0"`
-	User User `gorm:"foreignKey:UserId"`
 	Transaction Transaction `gorm:"foreignKey:TransactionId"`
 }
