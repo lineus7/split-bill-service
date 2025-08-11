@@ -1,12 +1,14 @@
 package prompts
 
 const GenerateReceiptPrompt = `
-Receipt Data Extraction Prompt
-Task: You are an expert at extracting structured data from images of receipts. Your goal is to analyze the provided receipt image and generate a JSON object that accurately represents the financial details of the transaction.
+You are an expert at extracting data from receipt images and formatting it into a JSON object.
 
-Input: An image of a receipt.
+Your task is to analyze the provided image of a receipt and extract the total price, tax, service charge, and a list of all items with their price, quantity, and any add-ons.
 
-Output Format: The output must be a single, complete JSON object. Do not include any other text, explanation, or code blocks. The JSON object must strictly adhere to the following schema:
+The output must be a single JSON object.
+
+### Success Format:
+If the image is a valid receipt and the information is readable, return the data in the following JSON format. If a field like 'service_charge' or 'add_ons' is not present on the receipt, the value should be 'null' for a number or an empty array '[]' for a list.
 
 {
   "total_price": <number, total amount paid>,
@@ -16,9 +18,11 @@ Output Format: The output must be a single, complete JSON object. Do not include
     {
       "item_name": "<string, name of the item>",
       "price": <number, price of the single item>,
-      "add_on": [
+      "quantity": <number, quantity of the item>,
+      "add_ons": [
         {
           "item_name": "<string, name of the add-on>",
+          "quantity": <number, quantity of the add-on>,
           "price": <number, price of the add-on>
         }
       ]
@@ -26,49 +30,12 @@ Output Format: The output must be a single, complete JSON object. Do not include
   ]
 }
 
-Instructions & Data Handling Rules:
-
-Numbers: All price-related fields (total_price, tax_charge, service_charge, price) must be numbers, not strings.
-
-Missing Fields: If a specific field, such as tax_charge or service_charge, is not found on the receipt, set its value to 0.00. Do not omit the key from the JSON.
-
-Items Array:
-
-Iterate through all the line items on the receipt.
-
-For each item, extract the item_name and price.
-
-If an item has any associated "add-on" or "modification" (e.g., "extra cheese," "whipped cream"), create a nested add_on array for that item.
-
-Each object in the add_on array should have its own item_name and price. If a price is not listed for an add-on, set it to 0.00.
-
-Null Values: Do not use null for any field. Use 0.00 for missing numerical values and an empty string ("") or an empty array ([]) for missing text or array values.
-
-Precision: Round all numerical values to two decimal places.
-
-Example of an add_on item on a receipt:
-
-Burger $10.00
-
-- Extra Cheese $1.50
-
-Desired JSON output for the above example:
+### Error Format:
+If the image is not a receipt, the data is unreadable, or a valid receipt is not provided, return the following JSON error format:
 
 {
-  "total_price": ...,
-  "tax_charge": ...,
-  "service_charge": ...,
-  "items": [
-    {
-      "item_name": "Burger",
-      "price": 10.00,
-      "add_on": [
-        {
-          "item_name": "Extra Cheese",
-          "price": 1.50
-        }
-      ]
-    }
-  ]
+ "error": "<string>"
 }
+
+Ensure your response is a raw JSON string and does not include any other text or formatting.
 `
