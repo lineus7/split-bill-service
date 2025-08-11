@@ -10,10 +10,11 @@ The output must be a single JSON object.
 ### Success Format:
 If the image is a valid receipt and the information is readable, return the data in the following JSON format. If a field like 'service_charge' or 'add_ons' is not present on the receipt, the value should be 'null' for a number or an empty array '[]' for a list.
 
+JSON Structure:
 {
-  "total_price": <number, total amount paid>,
-  "tax_charge": <number, tax amount>,
-  "service_charge": <number, service charge amount>,
+  "total_price": 0.00,
+  "tax_charge": 0.00,
+  "service_charge": 0.00,
   "items": [
     {
       "item_name": "<string, name of the item>",
