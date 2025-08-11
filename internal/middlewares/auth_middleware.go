@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	"split-bill-service/utils"
 
@@ -11,7 +10,6 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		log.Println("AuthMiddleware")
 		tokenString, err := c.Cookie("token")
 		if err != nil {
 			if errors.Is(err, http.ErrNoCookie) {
