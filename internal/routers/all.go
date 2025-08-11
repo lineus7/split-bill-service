@@ -13,6 +13,6 @@ func SetupRouters(router *gin.Engine,connection *config.Connection, repos *repos
 	{
 		r := router.Group("/api")
 		r.Use(middlewares.AuthMiddleware())
-		//ROUTERS HERE
+		SetupReceiptRoutes(r,connection,repos)
 	}
 }
