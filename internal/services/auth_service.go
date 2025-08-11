@@ -1,8 +1,6 @@
 package services
 
 import (
-	"io"
-	"mime/multipart"
 	"net/http"
 	"split-bill-service/internal/models"
 	"split-bill-service/internal/repositories"
@@ -48,20 +46,4 @@ func (s *AuthService) Register(email string, password string, name string) (*mod
 	newUser, err := s.userRepository.Create(user)
 	newUser.Password = ""
 	return newUser, err
-}
-
-func (s *AuthService) GenerateContent(fileHeader *multipart.FileHeader) (string, error) {
-	file, err := fileHeader.Open()
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
-	
-	fileBytes, err := io.ReadAll(file)
-	if err != nil {
-		return "", err
-	}
-
-	prompt := "Explain this image. Selain itu jawablah siapa presiden negara indonesia."
-	return s.geminiRepository.GenerateContentWithBytes(fileBytes, prompt)
 }

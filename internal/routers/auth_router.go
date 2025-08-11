@@ -17,6 +17,5 @@ func SetupAuthRoutes(router *gin.Engine,connection *config.Connection, repos *re
 	{
 		api.POST("/login", authHandler.Login)
 		api.POST("/register", authHandler.Register)
-		api.POST("/example", authHandler.Example)
 	}
 }

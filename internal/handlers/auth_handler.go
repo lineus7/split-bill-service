@@ -63,20 +63,3 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 	utils.SendResponse(c, http.StatusOK, user, "Register successful")
 }
-
-func (h *AuthHandler) Example(c *gin.Context) {
-	fileHeader, err := c.FormFile("image")
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Image file is required"})
-		return
-	}
-
-	content, err := h.authService.GenerateContent(fileHeader)
-	if err != nil {
-		c.Error(err)
-		return
-	}
-
-	utils.SendResponse(c, http.StatusOK, content, "Example successful")
-}
-	
