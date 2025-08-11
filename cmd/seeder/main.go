@@ -20,6 +20,7 @@ func main() {
     seeders.SeedTransactionItems(db)
     seeders.SeedTransactionItemAddOns(db)
     seeders.SeedUserFriends(db)
+    seeders.SeedTransactionItemUsers(db)
 
     log.Println("Seeding complete!")
 }
