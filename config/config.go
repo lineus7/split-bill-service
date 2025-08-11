@@ -24,18 +24,18 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		GinMode:    getEnv("GIN_MODE", "debug"),
-		HTTPPort:   getEnv("HTTP_PORT", "8080"),
-		DBHost:     getEnv("DB_HOST", "localhost"),
-		DBPort:     getEnv("DB_PORT", "5432"),
-		DBUser:     getEnv("DB_USER", "user"),
-		DBPassword: getEnv("DB_PASSWORD", "password"),
-		DBName:     getEnv("DB_NAME", "dbname"),
-		DBSSLMode:  getEnv("DB_SSLMODE", "disable"),
+		GinMode:    GetEnv("GIN_MODE", "debug"),
+		HTTPPort:   GetEnv("HTTP_PORT", "8080"),
+		DBHost:     GetEnv("DB_HOST", "localhost"),
+		DBPort:     GetEnv("DB_PORT", "5432"),
+		DBUser:     GetEnv("DB_USER", "user"),
+		DBPassword: GetEnv("DB_PASSWORD", "password"),
+		DBName:     GetEnv("DB_NAME", "dbname"),
+		DBSSLMode:  GetEnv("DB_SSLMODE", "disable"),
 	}
 }
 
-func getEnv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
 	}
