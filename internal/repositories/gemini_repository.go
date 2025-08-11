@@ -8,7 +8,7 @@ import (
 	"google.golang.org/genai"
 )
 
-var model = "gemini-2.5-flash"
+var model = "gemini-2.5-pro"
 
 func NewGeminiRepository(connection *config.Connection) *GeminiRepository {
 	ctx := context.Background()
