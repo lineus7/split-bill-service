@@ -32,7 +32,7 @@ JSON Structure:
 }
 
 ### Error Format:
-If the image is not a receipt, the data is unreadable, or a valid receipt is not provided, return the following JSON error format:
+If the image is not a receipt, the data is unreadable, or a valid receipt is not provided, return the following JSON error format with a generic, user-friendly message.
 
 {
  "error": "<string>"
