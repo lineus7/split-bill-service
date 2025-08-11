@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"net/http"
+	"split-bill-service/internal/dtos"
 	"split-bill-service/internal/services"
 	"split-bill-service/utils"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,7 +34,14 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	utils.SendResponse(c, http.StatusOK, user, "Login successful")
+	token, err := utils.GenerateJWTUserToken(user, time.Hour*24)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.SetCookie("token", token, 60*60*24, "/", "", false, true)
+	utils.SendResponse(c, http.StatusOK, dtos.ResponseLoginDTO{User: *user, AccessToken: token}, "Login successful")
 }
 
 func (h *AuthHandler) Register(c *gin.Context) {
