@@ -25,6 +25,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(middlewares.ErrorHandlingMiddleware())
+	r.Use(middlewares.CorsMiddleware())
 	routers.SetupRouters(r, connection, repos)
 
 	log.Printf("Server starting on port %s", cfg.HTTPPort)
