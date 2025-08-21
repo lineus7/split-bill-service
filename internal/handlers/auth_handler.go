@@ -40,7 +40,6 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", token, 60*60*24, "/", "", false, true)
 	utils.SendResponse(c, http.StatusOK, dtos.ResponseLoginDTO{User: *user, AccessToken: token}, "Login successful")
 }
 

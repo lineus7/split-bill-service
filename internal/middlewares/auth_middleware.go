@@ -1,24 +1,27 @@
 package middlewares
 
 import (
-	"errors"
 	"net/http"
 	"split-bill-service/utils"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tokenString, err := c.Cookie("token")
-		if err != nil {
-			if errors.Is(err, http.ErrNoCookie) {
-				utils.SendErrorResponse(c, http.StatusUnauthorized, "Unauthorized")
-				return
-			}
-			c.Error(err)
+		authHeader := c.GetHeader("Authorization");	
+		if authHeader == "" {
+			utils.SendErrorResponse(c, http.StatusUnauthorized, "Unauthorized")
 			return
 		}
+		
+		authHeaderParts := strings.Split(authHeader, " ")
+		if len(authHeaderParts) != 2 || authHeaderParts[0] != "Bearer" {
+			utils.SendErrorResponse(c, http.StatusUnauthorized, "Unauthorized")
+			return
+		}
+		tokenString := authHeaderParts[1]
 
 		token, err := utils.VerifyJWTUserToken(tokenString)
 		if err != nil {
