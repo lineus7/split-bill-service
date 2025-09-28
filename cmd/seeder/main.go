@@ -14,6 +14,7 @@ func main() {
 
     log.Println("Seeding started...")
 
+    seeders.SeedRoles(db)
     seeders.SeedUsers(db)
     seeders.SeedTransactionStatus(db)
     seeders.SeedTransactions(db)

@@ -14,8 +14,8 @@ func SeedUsers(db *gorm.DB) {
     password, _ := utils.HashPassword("password")
 
     users := []models.User{
-        {Name: "Alice", Username: "alice", Email: "alice@example.com", Password: password},
-        {Name: "Bob", Username: "bob", Email: "bob@example.com", Password: password},
+        {Name: "Super Admin", Username: "superadmin", Email: "superadmin@example.com", Password: password, RoleID: 1},
+        {Name: "User", Username: "user", Email: "user@example.com", Password: password, RoleID: 2},
     }
 
     if err := db.Create(&users).Error; err != nil {
