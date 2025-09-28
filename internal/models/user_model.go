@@ -9,5 +9,6 @@ type User struct {
 	Email    string `json:"Email" gorm:"unique"`
 	Password string `json:"Password,omitempty" gorm:"not null"`
 	RoleID   uint   `json:"RoleID" gorm:"not null"`
+	IsActive bool   `json:"IsActive"`
 	Role     Role   `gorm:"foreignKey:RoleID;references:ID"`
 }
