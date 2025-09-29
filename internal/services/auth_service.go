@@ -2,6 +2,7 @@ package services
 
 import (
 	"net/http"
+	"split-bill-service/internal/enums"
 	"split-bill-service/internal/models"
 	"split-bill-service/internal/repositories"
 	"split-bill-service/utils"
@@ -34,16 +35,31 @@ func (s *AuthService) Login(email string, password string) (*models.User, error)
 	return user, nil
 }
 
-func (s *AuthService) Register(email string, password string, name string) (*models.User, error) {
+func (s *AuthService) Register(email string, password string, name string, username string) (*models.User, error) {
 	user := models.User{
 		Email:    email,
 		Password: password,
 		Name:     name,
+		Username: username,
+		RoleID: enums.ROLE_USER,
+		IsActive: false,
 	}
-	if _, err := s.userRepository.GetByEmail(email); err == nil {
+
+	data, _ := s.userRepository.GetByEmail(email)
+	if data != nil {
 		return nil, utils.NewAppError(http.StatusConflict, "Email already exists", nil)
 	}
+
+	data, _ = s.userRepository.GetByUsername(username)
+	if data != nil {
+		return nil, utils.NewAppError(http.StatusConflict, "Username already exists", nil)
+	}
+
 	newUser, err := s.userRepository.Create(user)
+	if err != nil {
+		return nil, err
+	}
+
 	newUser.Password = ""
-	return newUser, err
+	return newUser, nil
 }

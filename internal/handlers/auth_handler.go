@@ -48,17 +48,18 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		Email    string `json:"email" binding:"required"`
 		Password string `json:"password" binding:"required"`
 		Name     string `json:"name" binding:"required"`
+		Username string `json:"username" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.Error(err)
 		return
 	}
 
-	user, err := h.authService.Register(req.Email, req.Password, req.Name)
+	_, err := h.authService.Register(req.Email, req.Password, req.Name, req.Username)
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	utils.SendResponse(c, http.StatusOK, user, "Register successful")
+	utils.SendResponse(c, http.StatusOK, nil, "Register successful")
 }

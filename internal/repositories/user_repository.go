@@ -19,9 +19,23 @@ func NewUserRepository(connection *config.Connection) *UserRepository {
 func (s *UserRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
 	if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return &user, nil	
+}
+
+func (s *UserRepository) GetByUsername(username string) (*models.User, error) {
+	var user models.User
+	if err := s.db.Where("username = ?", username).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &user, nil
 }
 
 func (s *UserRepository) Create(user models.User) (*models.User, error) {
