@@ -11,8 +11,9 @@ func SeedRoles(db *gorm.DB) {
     log.Println("Seeding roles...")
 
     roles := []models.Role{
-        {RoleName: "User"},
         {RoleName: "SuperAdmin"},
+        {RoleName: "Admin"},
+        {RoleName: "User"},
     }
 
     if err := db.Create(&roles).Error; err != nil {
