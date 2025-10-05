@@ -18,7 +18,7 @@ func NewUserRepository(connection *config.Connection) *UserRepository {
 
 func (s *UserRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
-	if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
+	if err := s.db.Where("email = ?", email).Preload("Role").First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}
