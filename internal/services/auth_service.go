@@ -31,6 +31,10 @@ func (s *AuthService) Login(email string, password string) (*models.User, error)
 	if !utils.CheckPasswordHash(password, user.Password) {
 		return nil, utils.NewAppError(http.StatusUnauthorized, "Invalid Credentials", nil)
 	}
+	if !user.IsActive {
+		return nil, utils.NewAppError(http.StatusUnauthorized, "User Has Not Been Activated", nil)
+	}
+	
 	user.Password = ""
 	return user, nil
 }
