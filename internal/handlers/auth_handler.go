@@ -34,7 +34,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateJWTUserToken(user, time.Hour*24)
+	token, err := utils.GenerateJWTUserToken(user, time.Hour*24*30)
 	if err != nil {
 		c.Error(err)
 		return
