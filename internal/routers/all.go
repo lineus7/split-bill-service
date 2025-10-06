@@ -11,8 +11,9 @@ import (
 func SetupRouters(router *gin.Engine,connection *config.Connection, repos *repositories.RepositoriesSet) {
 	SetupAuthRoutes(router,connection,repos)
 	{
-		r := router.Group("/api")
+		r := router.Group("")
 		r.Use(middlewares.AuthMiddleware())
 		SetupReceiptRoutes(r,connection,repos)
+		SetupProfileRoutes(r,connection,repos)
 	}
 }
