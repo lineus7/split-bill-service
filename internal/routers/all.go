@@ -8,11 +8,13 @@ import (
 	"split-bill-service/internal/repositories"
 )
 
-func SetupRouters(router *gin.Engine,connection *config.Connection, repos *repositories.RepositoriesSet) {
-	SetupAuthRoutes(router,connection,repos)
+func SetupRouters(router *gin.Engine, connection *config.Connection, repos *repositories.RepositoriesSet) {
+	SetupAuthRoutes(router, connection, repos)
+	// PROTECTED ROUTES
 	{
 		r := router.Group("/api")
 		r.Use(middlewares.AuthMiddleware())
-		SetupReceiptRoutes(r,connection,repos)
+		SetupReceiptRoutes(r, connection, repos)
+		SetupProfileRoutes(r, connection, repos)
 	}
 }
