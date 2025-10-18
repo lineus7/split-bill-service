@@ -3,6 +3,7 @@ CREATE TABLE transactions (
 	id SERIAL PRIMARY KEY,
 	user_id INT NOT NULL REFERENCES users(id),
 	status_id INT NOT NULL REFERENCES transaction_statuses(id),
+	title VARCHAR(255) NOT NULL,
 	service_charge DECIMAL(10, 2) NOT NULL DEFAULT 0,
     tax_charge DECIMAL(10, 2) NOT NULL DEFAULT 0,
 	total_price DECIMAL(10, 2) NOT NULL DEFAULT 0,

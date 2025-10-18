@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Transaction struct {
 	gorm.Model
+	Title string `gorm:"not null"`
 	UserId uint `gorm:"not null"`
 	StatusId uint `gorm:"not null"`
 	ServiceCharge float64 `gorm:"not null default:0"`
