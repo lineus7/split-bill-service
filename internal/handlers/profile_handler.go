@@ -9,19 +9,18 @@ import (
 )
 
 type ProfileHandler struct {
-	authService *services.ProfileService
+	profileService *services.ProfileService
 }
 
-func NewProfileHandler(authService *services.ProfileService) *ProfileHandler {
-	return &ProfileHandler{authService: authService}
+func NewProfileHandler(profileService *services.ProfileService) *ProfileHandler {
+	return &ProfileHandler{profileService: profileService}
 }
 
 func (h *ProfileHandler) ChangePassword(c *gin.Context) {
 	var req struct {
-		OldPassword    string `json:"old_password" binding:"required"`
-		NewPassword string `json:"new_password" binding:"required"`
+		CurrentPassword string `json:"current_password" binding:"required"`
+		NewPassword     string `json:"new_password" binding:"required"`
 	}
-	
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.Error(err)
 		return
@@ -33,7 +32,7 @@ func (h *ProfileHandler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	user, err = h.authService.ChangePassword(user.Email, req.OldPassword, req.NewPassword)
+	err = h.profileService.ChangePassword(req.CurrentPassword, req.NewPassword, user.Email)
 	if err != nil {
 		c.Error(err)
 		return
