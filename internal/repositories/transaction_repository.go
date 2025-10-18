@@ -15,9 +15,9 @@ func NewTransactionRepository(connection *config.Connection) *TransactionReposit
 	return &TransactionRepository{db: connection.DB}
 }
 
-func (s *TransactionRepository) GetListByUserId(userId uint) ([]models.Transaction, error) {
+func (s *TransactionRepository) GetListByUserId(userId uint, search string) ([]models.Transaction, error) {
 	var transaction []models.Transaction
-	if err := s.db.Where("user_id = ?", userId).Find(&transaction).Error; err != nil {
+	if err := s.db.Where("user_id = ? AND title LIKE ?", userId, "%"+search+"%").Find(&transaction).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}

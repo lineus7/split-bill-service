@@ -17,13 +17,14 @@ func NewTransactionHandler(transactionService *services.TransactionService) *Tra
 }
 
 func (h *TransactionHandler) GetListTransaction (c *gin.Context) {
+	search := c.Query("search")
 	user, err := utils.GetUserSession(c)
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	transactions, err := h.transactionService.GetListByUserId(user.ID)
+	transactions, err := h.transactionService.GetListByUserId(user.ID, search)
 	if err != nil {
 		c.Error(err)
 		return

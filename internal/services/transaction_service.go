@@ -14,6 +14,6 @@ type TransactionService struct {
 	transactionRepository *repositories.TransactionRepository
 }
 
-func (s *TransactionService) GetListByUserId(userId uint) ([]models.Transaction, error) {
-	return s.transactionRepository.GetListByUserId(userId)
+func (s *TransactionService) GetListByUserId(userId uint, search string) ([]models.Transaction, error) {
+	return s.transactionRepository.GetListByUserId(userId, search)
 }
