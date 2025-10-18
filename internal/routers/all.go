@@ -16,5 +16,6 @@ func SetupRouters(router *gin.Engine, connection *config.Connection, repos *repo
 		r.Use(middlewares.AuthMiddleware())
 		SetupReceiptRoutes(r,connection,repos)
 		SetupProfileRoutes(r,connection,repos)
+		SetupTransactionRoutes(r,connection,repos)
 	}
 }

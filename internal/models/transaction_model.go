@@ -9,6 +9,6 @@ type Transaction struct {
 	ServiceCharge float64 `gorm:"not null default:0"`
 	TaxCharge float64 `gorm:"not null default:0"`
 	TotalPrice float64 `gorm:"not null default:0"`
-	User User `gorm:"foreignKey:UserId"`
-	Status TransactionStatus `gorm:"foreignKey:StatusId"`
+	User User `gorm:"foreignKey:UserId" json:"omitempty"`
+	Status TransactionStatus `gorm:"foreignKey:StatusId" json:"omitempty"`
 }
