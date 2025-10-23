@@ -28,7 +28,14 @@ func (s *TransactionRepository) GetListByUserId(userId uint, search string) ([]m
 
 func (s *TransactionRepository) GetDetailByUniqueId(uniqueId string) (*models.Transaction, error) {
 	var transaction models.Transaction
-	if err := s.db.Where("unique_id = ?", uniqueId).Preload("TransactionItems").Preload("TransactionItems.TransactionItemAddOns").First(&transaction).Error; err != nil {
+	query := s.db.Where("unique_id = ?", uniqueId)
+	query = query.Preload("TransactionItems")
+	query = query.Preload("TransactionItems.TransactionItemAddOns")
+	query = query.Preload("TransactionItems.TransactionItemUsers")
+	query = query.Preload("TransactionItems.TransactionItemUsers.User", func(db *gorm.DB) *gorm.DB {
+        return db.Select("users.id", "users.name", "users.username", "users.email", "users.role_id", "users.is_active")
+    })
+	if err := query.First(&transaction).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}

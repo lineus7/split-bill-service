@@ -9,4 +9,5 @@ type TransactionItemUser struct {
 	TransactionItemId uint `gorm:"not null"`
 	UserId *uint
 	AlternativeCustomerName *string 
+	User User `gorm:"foreignKey:UserId" json:"User,omitempty"`
 }
