@@ -9,7 +9,9 @@ import (
 )
 
 func SetupRouters(router *gin.Engine, connection *config.Connection, repos *repositories.RepositoriesSet) {
+	// PUBLIC ROUTES
 	SetupAuthRoutes(router, connection, repos)
+	SetupPublicRoutes(router, connection, repos)
 	// PROTECTED ROUTES
 	{
 		r := router.Group("")

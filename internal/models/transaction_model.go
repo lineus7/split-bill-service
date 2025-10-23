@@ -13,4 +13,5 @@ type Transaction struct {
 	TotalPrice float64 `gorm:"not null default:0"`
 	User   User              `gorm:"foreignKey:UserId" json:"User,omitempty"`
 	Status TransactionStatus `gorm:"foreignKey:StatusId" json:"Status,omitempty"`
+	TransactionItems []TransactionItem `gorm:"foreignKey:TransactionId" json:"TransactionItems,omitempty"`
 }
